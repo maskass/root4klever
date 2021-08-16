@@ -1,7 +1,7 @@
 #!/bin/bash
 
-ascii_dir="/home/mascagna/LOCAL_ASCII"
-root_dir="/home/mascagna/LOCAL_ROOT"
+ascii_dir="$HOME/LOCAL_ASCII"
+root_dir="$HOME/LOCAL_ROOT" 
 
 if [ ! -d $ascii_dir ];then
     echo "ERROR: directory "$ascii_dir" not present."

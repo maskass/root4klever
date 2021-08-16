@@ -5,9 +5,10 @@ if [ $# -ne 1 ];then
 fi
 
 nrun=$( printf "%6.6d" "$1")
-ascii_dir="/home/mascagna/LOCAL_ASCII"
-root_dir="/home/mascagna/LOCAL_ROOT"
-root_merged_dir="/home/mascagna/LOCAL_ROOT_MERGED"
+
+ascii_dir="$HOME/LOCAL_ASCII"
+root_dir="$HOME/LOCAL_ROOT"
+root_merged_dir="/eos/user/m/mmoulson/KLEVER/TestBeamData/Root2021/merged"
 
 # for every spill of a given run, check the root dir and
 # create the root file if it does not exist
