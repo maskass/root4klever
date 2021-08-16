@@ -118,19 +118,19 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
 
       // OTHER LINES (Waveforms) 
       if (lineNumber%4==1) {
-        for (Int_t i=0;i<6;i++) ss >> dummy ;
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
   	    for (Int_t i=0;i<256;i++) ss >> wave0[i];
-        ss >> dummy ;
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
       }
       if (lineNumber%4==2) {
-        for (Int_t i=0;i<6;i++) ss >> dummy ;
+       for (Int_t i=0;i<5;i++)   ss >> dummy ;
         for (Int_t i=0;i<256;i++) ss >> wave1[i];
-        ss >> dummy ;
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
       }
       if (lineNumber%4==3) {
-        for (Int_t i=0;i<6;i++) ss >> dummy ;
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
         for (Int_t i=0;i<256;i++) ss >> wave2[i];
-        ss >> dummy ;
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
       }
 
       lineNumber++;
