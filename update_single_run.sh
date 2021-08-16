@@ -5,9 +5,9 @@ if [ $# -ne 1 ];then
 fi
 
 nrun=$( printf "%6.6d" "$1")
-ascii_dir="./ascii"
-root_dir="./root"
-root_merged_dir="./root_merged"
+ascii_dir="/home/mascagna/LOCAL_ASCII"
+root_dir="/home/mascagna/LOCAL_ROOT"
+root_merged_dir="/home/mascagna/LOCAL_ROOT_MERGED"
 
 # for every spill of a given run, check the root dir and
 # create the root file if it does not exist
@@ -23,8 +23,7 @@ for file in $(ls $ascii_dir/run$nrun*.dat); do
     # check file existence
     if [ ! -e $root_dir/$root_file ];then
 	new_file_count=$(echo $new_file_count + 1 | bc)
-	#root -l -b -q 'ascii2root.cc+(1,6,'\"$file\"','\"$root_dir/$root_file\"')'
-	root -l -b -q 'ascii2root.cc+(1,'\"$file\"','\"$root_dir/$root_file\"')'
+	root -l -b -q 'ascii2root.cc+('\"$file\"','\"$root_dir/$root_file\"')'
     fi
     
 done

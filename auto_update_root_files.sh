@@ -1,11 +1,7 @@
 #!/bin/bash
-#if [ $# -ne 2 ];then
-#    echo "ERROR: use 2 arguments (ascii dir [ascii_dir], root dir [root_dir])"
-#    exit 1
-#fi
 
-ascii_dir="./ascii"
-root_dir="./root"
+ascii_dir="/home/mascagna/LOCAL_ASCII"
+root_dir="/home/mascagna/LOCAL_ROOT"
 
 if [ ! -d $ascii_dir ];then
     echo "ERROR: directory "$ascii_dir" not present."
