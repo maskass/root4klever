@@ -64,15 +64,15 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
   
   // silicon trackers
   Float_t xRaw[8];        t->Branch("xRaw",xRaw,"xRaw[8]/F");
-  Int_t nStripHit[8];     t->Branch("nStripHit",nStripHit,"nStripHit[8]/I");
-  Int_t nHit[8];          t->Branch("nHit",nHit,"nHit[8]/I");
+  UShort_t nStripHit[8];     t->Branch("nStripHit",nStripHit,"nStripHit[8]/s");
+  UShort_t nHit[8];          t->Branch("nHit",nHit,"nHit[8]/s");
 
 
   // Digitizer baselines, pulse heights and time of max
   const int ndigi = 3 ;
-  Int_t digiBase[8*ndigi];    t->Branch("digiBase",digiBase,Form("digiBase[%d]/I",8*ndigi));
-  Int_t digiPh[8*ndigi];      t->Branch("digiPh",digiPh,Form("digiPh[%d]/I",8*ndigi));
-  Int_t digiTime[8*ndigi];    t->Branch("digiTime",digiTime,Form("digiTime[%d]/I",8*ndigi));
+  UShort_t digiBase[8*ndigi];    t->Branch("digiBase",digiBase,Form("digiBase[%d]/s",8*ndigi));
+  UShort_t digiPh[8*ndigi];      t->Branch("digiPh",digiPh,Form("digiPh[%d]/s",8*ndigi));
+  UShort_t digiTime[8*ndigi];    t->Branch("digiTime",digiTime,Form("digiTime[%d]/s",8*ndigi));
 
   // Goniometer
   Float_t gonio[5];           t->Branch("gonio",gonio,"gonio[5]/F");
@@ -85,10 +85,10 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
 
   // Waveforms
 
-  Int_t wave0[256], wave1[256], wave2[256];
-  t->Branch("wave0",wave0,"wave0[256]/I");
-  t->Branch("wave1",wave1,"wave1[256]/I");
-  t->Branch("wave2",wave2,"wave2[256]/I");
+  UShort_t wave0[256], wave1[256], wave2[256];
+  t->Branch("wave0",wave0,"wave0[256]/s");
+  t->Branch("wave1",wave1,"wave1[256]/s");
+  t->Branch("wave2",wave2,"wave2[256]/s");
 
   // end of OUTPUT TREE DEF
   Int_t dummy=0;
