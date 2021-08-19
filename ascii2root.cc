@@ -2,7 +2,7 @@
 Valerio, KLEVER 2021
 
 -------------------
-     <row 1, EVENT N, 104 fields>
+     <row 1, EVENT N, 128 fields>
      0--7     [8]   xRaw
      8--15    [8]   nStripHit
      16--23   [8]   nHit
@@ -10,32 +10,37 @@ Valerio, KLEVER 2021
      24--31   [8]   digitizer 1, baselines
      32--39   [8]   digitizer 2, baselines 
      40--47   [8]   digitizer 3, baselines
+     48--49   [8]   digitizer 4, baselines
 
-     48--49   [8]   digitizer 1, pulse heights
-     56--63   [8]   digitizer 2, pulse heights
-     64--71   [8]   digitizer 3, pulse heights 
+     56--63   [8]   digitizer 1, pulse heights
+     64--71   [8]   digitizer 2, pulse heights 
+     72--79   [8]   digitizer 3, pulse heights
+     80--87   [8]   digitizer 4, pulse heights
 
-     72--79   [8]   digitizer 1, time of max
-     80--87   [8]   digitizer 2, time of max
-     88--95   [8]   digitizer 3, time of max
+     88--95   [8]   digitizer 1, time of max
+     96--103  [8]   digitizer 2, time of max
+     104--111 [8]   digitizer 3, time of max
+     112--119 [8]   digitizer 4, time of max
 
-     96--100  [5]   goniometer parameters
+     120--124 [5]   goniometer parameters
 
-     101      [1]   number of spill
-     102      [1]   number of step
-     103      [1]   event number
+     125      [1]   number of spill
+     126      [1]   number of step
+     127      [1]   event number
 
-    
     <row 2>
-    0--263    [263] waveform nr 1
+    0--1031   [1031] waveform nr 1 (5 + 1024 + 2)
     
     <row 3>
-    0--263    [263] waveform nr 2
+    0--1031   [1031] waveform nr 2 (5 + 1024 + 2)
     
-    <row 4>
-    0--263    [263] waveform nr 3
+    ...
 
-    <row5, EVENT N+1, 104 fields>
+    <row 9>
+    0--1031   [1031] waveform nr 8 (5 + 1024 + 2)
+    
+    <row10, EVENT N+1, 128 fields>
+    ...
     ...
     ...
 */
@@ -69,7 +74,7 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
 
 
   // Digitizer baselines, pulse heights and time of max
-  const int ndigi = 3 ;
+  const int ndigi = 4 ;
   UShort_t digiBase[8*ndigi];    t->Branch("digiBase",digiBase,Form("digiBase[%d]/s",8*ndigi));
   UShort_t digiPh[8*ndigi];      t->Branch("digiPh",digiPh,Form("digiPh[%d]/s",8*ndigi));
   UShort_t digiTime[8*ndigi];    t->Branch("digiTime",digiTime,Form("digiTime[%d]/s",8*ndigi));
@@ -85,10 +90,16 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
 
   // Waveforms
 
-  UShort_t wave0[256], wave1[256], wave2[256];
-  t->Branch("wave0",wave0,"wave0[256]/s");
-  t->Branch("wave1",wave1,"wave1[256]/s");
-  t->Branch("wave2",wave2,"wave2[256]/s");
+  UShort_t wave0[1024], wave1[1024], wave2[1024], wave3[1024], 
+            wave4[1024], wave5[1024], wave6[1024], wave7[1024];
+  t->Branch("wave0",wave0,"wave0[1024]/s");
+  t->Branch("wave1",wave1,"wave1[1024]/s");
+  t->Branch("wave2",wave2,"wave2[1024]/s");
+  t->Branch("wave3",wave3,"wave3[1024]/s");
+  t->Branch("wave4",wave4,"wave4[1024]/s");
+  t->Branch("wave5",wave5,"wave5[1024]/s");
+  t->Branch("wave6",wave6,"wave6[1024]/s");
+  t->Branch("wave7",wave7,"wave7[1024]/s");
 
   // end of OUTPUT TREE DEF
   Int_t dummy=0;
@@ -99,7 +110,7 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
       std::stringstream ss(line);      
 
       // HEADER LINES
-      if (lineNumber%4==0) {
+      if (lineNumber%9==0) {
 
         	if (lineNumber>0) t->Fill();
 
@@ -117,22 +128,46 @@ void ascii2root(string inFileName="dummy", string outFileName="out") {
       }
 
       // OTHER LINES (Waveforms) 
-      if (lineNumber%4==1) {
+      if (lineNumber%9==1) {
         for (Int_t i=0;i<5;i++)   ss >> dummy ;
-  	    for (Int_t i=0;i<256;i++) ss >> wave0[i];
+  	    for (Int_t i=0;i<1024;i++) ss >> wave0[i];
         for (Int_t i=0;i<2;i++)   ss >> dummy ;
       }
-      if (lineNumber%4==2) {
+      if (lineNumber%9==2) {
        for (Int_t i=0;i<5;i++)   ss >> dummy ;
-        for (Int_t i=0;i<256;i++) ss >> wave1[i];
+        for (Int_t i=0;i<1024;i++) ss >> wave1[i];
         for (Int_t i=0;i<2;i++)   ss >> dummy ;
       }
-      if (lineNumber%4==3) {
+      if (lineNumber%9==3) {
         for (Int_t i=0;i<5;i++)   ss >> dummy ;
-        for (Int_t i=0;i<256;i++) ss >> wave2[i];
+        for (Int_t i=0;i<1024;i++) ss >> wave2[i];
         for (Int_t i=0;i<2;i++)   ss >> dummy ;
       }
-
+      if (lineNumber%9==4) {
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
+        for (Int_t i=0;i<1024;i++) ss >> wave3[i];
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
+      }
+      if (lineNumber%9==5) {
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
+        for (Int_t i=0;i<1024;i++) ss >> wave4[i];
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
+      }
+      if (lineNumber%9==6) {
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
+        for (Int_t i=0;i<1024;i++) ss >> wave5[i];
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
+      }
+      if (lineNumber%9==7) {
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
+        for (Int_t i=0;i<1024;i++) ss >> wave6[i];
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
+      }
+      if (lineNumber%9==8) {
+        for (Int_t i=0;i<5;i++)   ss >> dummy ;
+        for (Int_t i=0;i<1024;i++) ss >> wave7[i];
+        for (Int_t i=0;i<2;i++)   ss >> dummy ;
+      }
       lineNumber++;
     }
       
